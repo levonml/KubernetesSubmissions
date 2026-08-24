@@ -17,4 +17,4 @@ spec:
           image: levonml/1-5:latest
           env:
             - name: PORT
-              value: "3002"
+              value: "3000"
