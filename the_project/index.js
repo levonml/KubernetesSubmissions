@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 const __dirname = process.cwd();
 app.get("/", (req, res) => {
     console.log("Request received for /");

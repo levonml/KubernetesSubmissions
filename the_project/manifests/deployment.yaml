@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: the-project
-          image: levonml/1-5:latest
+          image: levonml/1-8:latest
           env:
             - name: PORT
               value: "3000"
