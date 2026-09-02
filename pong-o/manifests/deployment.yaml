@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pong-o
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pong-o
+  template:
+    metadata:
+      labels:
+        app: pong-o
+    spec:
+      containers:
+        - name: pong-o
+          image: levonml/1.9:latest
