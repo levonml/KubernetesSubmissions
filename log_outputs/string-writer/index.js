@@ -1,12 +1,15 @@
 import crypto from 'crypto'
-import express from 'express'
-
-const app = express()
+import fs from 'fs'
+import path from 'path'
 let currentStatus
 
-app.get('/', (req, res) => {
-    res.send(currentStatus)
-})
+const logFilePath = '/usr/src/app/files/logoutput.txt'
+fs.mkdirSync(path.dirname(logFilePath), { recursive: true })
+fs.writeFileSync(logFilePath, '')
+
+setInterval(() => {
+    fs.appendFileSync(logFilePath, `${currentStatus}\n`)
+}, 5000)
 
 
 const randomHash = crypto.randomUUID();
@@ -17,6 +20,3 @@ const getHashNow = () => {
     setTimeout(() => getHashNow(), 5000)
 }
 getHashNow()
-app.listen(3000, () => {
-    console.log('Server is running on port 3000')
-})

@@ -6,7 +6,14 @@ spec:
   rules:
   - http:
       paths:
-      - path: /
+      - path: /showlogs
+        pathType: Prefix
+        backend:
+          service:
+            name: log-output-svc
+            port:
+              number: 2345
+      - path: /log-output
         pathType: Prefix
         backend:
           service:
@@ -20,3 +27,10 @@ spec:
             name: pong-o-svc
             port:
               number: 2346
+      - path: /the-project
+        pathType: Prefix
+        backend:
+          service:
+            name: the-project-svc
+            port:
+              number: 2347

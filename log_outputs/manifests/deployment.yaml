@@ -12,6 +12,17 @@ spec:
       labels:
         app: log-output
     spec:
+      volumes:
+        - name: shared-logs
+          emptyDir: {}
       containers:
-        - name: log-output
-          image: levonml/1-7:latest
+        - name: string-reader
+          image: levonml/1.10-reader:latest
+          volumeMounts:
+          - name: shared-logs
+            mountPath: /usr/src/app/files
+        - name: string-writer
+          image: levonml/1.10-writer:latest
+          volumeMounts:
+          - name: shared-logs
+            mountPath: /usr/src/app/files

@@ -7,6 +7,6 @@ spec:
   selector:
     app: log-output
   ports:
-    - port: 2346
+    - port: 2345
       protocol: TCP
       targetPort: 3000

@@ -6,7 +6,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 const __dirname = process.cwd();
-app.get("/", (req, res) => {
+app.get("/the-project", (req, res) => {
     console.log("Request received for /");
     //serve an html file
     res.sendFile("index.html", { root: __dirname });
