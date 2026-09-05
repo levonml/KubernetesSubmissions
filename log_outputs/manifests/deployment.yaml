@@ -14,15 +14,16 @@ spec:
     spec:
       volumes:
         - name: shared-logs
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: shared-logs-claim
       containers:
         - name: string-reader
-          image: levonml/1.10-reader:latest
+          image: levonml/1.11-reader:latest
           volumeMounts:
           - name: shared-logs
-            mountPath: /usr/src/app/files
+            mountPath: /tmp/kube
         - name: string-writer
-          image: levonml/1.10-writer:latest
+          image: levonml/1.11-writer:latest
           volumeMounts:
           - name: shared-logs
-            mountPath: /usr/src/app/files
+            mountPath: /tmp/kube

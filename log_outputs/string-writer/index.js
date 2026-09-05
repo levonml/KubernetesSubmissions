@@ -3,12 +3,12 @@ import fs from 'fs'
 import path from 'path'
 let currentStatus
 
-const logFilePath = '/usr/src/app/files/logoutput.txt'
+const logFilePath = '/tmp/kube/logoutput.txt'
 fs.mkdirSync(path.dirname(logFilePath), { recursive: true })
 fs.writeFileSync(logFilePath, '')
 
 setInterval(() => {
-    fs.appendFileSync(logFilePath, `${currentStatus}\n`)
+    fs.writeFileSync(logFilePath, `${currentStatus}\n`)
 }, 5000)
 
 
