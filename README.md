@@ -14,4 +14,6 @@
   - [1.8](https://github.com/levonml/KubernetesSubmissions/tree/1.8/the_project)
   - [1.9](https://github.com/levonml/KubernetesSubmissions/tree/1.9/pong-o)
   - [1.10](https://github.com/levonml/KubernetesSubmissions/tree/1.10/log_outputs)
+  - [1.11](https://github.com/levonml/KubernetesSubmissions/tree/1.11)  
+  - [1.12](https://github.com/levonml/KubernetesSubmissions/tree/1.12/the_project)
 
