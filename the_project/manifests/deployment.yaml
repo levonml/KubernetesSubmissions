@@ -14,7 +14,14 @@ spec:
     spec:
       containers:
         - name: the-project
-          image: levonml/1.8:latest
+          image: levonml/1.12:latest
           env:
             - name: PORT
               value: "3000"
+          volumeMounts:
+          - name: shared-logs
+            mountPath: /tmp/kube
+      volumes:
+        - name: shared-logs
+          persistentVolumeClaim:
+            claimName: shared-logs-claim
