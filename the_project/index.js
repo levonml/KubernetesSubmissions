@@ -2,10 +2,12 @@ import express from "express";
 import axios from "axios";
 import fs from "fs";
 import path from "path";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const APP_DIR = process.cwd();
 const PV_PATH = "/tmp/kube";
 const imagePath = path.join(PV_PATH, "image.jpg");
