@@ -4,16 +4,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello</title>
+    <title>Todo App</title>
 </head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .todo-input-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .todo-input-container input {
+        margin-top: 20px;
+        padding-left: 10px;
+        width: 400px;
+        height: 40px;
+        border-radius: 5px;
+        border: 1px solid #22be49;
+    }
+
+    .todo-input-container button {
+        height: 40px;
+        width: 100px;
+        border-radius: 5px;
+        color: white;
+        background-color: #22be49;
+        border: 1px solid #22be49;
+    }
+
+    #todoList {
+        margin: 10px auto;
+        padding: 0;
+        width: 90%;
+    }
+
+    #todoList li {
+        list-style-type: none;
+        width: auto;
+        height: 40px;
+        border-left: 5px solid #22be49;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9;
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        padding: 5px 10px;
+
+    }
+</style>
 
 <body>
-
-    <h1 style="text-align: center;">This is The Project</h1>
-    <div style="text-align: center;">
-        <p>Welcome to the project page. below you can find a random image fetched from the internet!</p>
-        <img src="/images/image.jpg" alt="Random Image" width="600">
+    <h1 style="text-align: center;">Todo App</h1>
+    <div style="text-align: center; ">
+        <img src="/images/image.jpg" alt="Random Image" width="250" style="border-radius: 10px;">
     </div>
+
+    <div class="todo-input-container">
+
+        <input type="text" id="todoInput" maxlength="140" placeholder="Write a todo (max 140 characters)">
+        <button id="sendButton">Send</button>
+        <h2 id="todoCount">Total todos</h2>
+    </div>
+
+    <ul id="todoList">
+        <li>Learn Kubernetes basics</li>
+        <li>Deploy application to cluster</li>
+        <li>Configure Persistent Volumes</li>
+    </ul>
 </body>
 
 </html>
