@@ -2,8 +2,6 @@ import express from "express";
 import axios from "axios";
 import fs from "fs";
 import path from "path";
-import dotenv from "dotenv";
-dotenv.config();
 
 const app = express();
 
@@ -14,7 +12,31 @@ const imagePath = path.join(PV_PATH, "image.jpg");
 
 const tenMinutes = 10 * 60 * 1000;
 
+// placeholder store until todo-backend takes over persistence
+
+const indexTemplate = fs.readFileSync(path.join(APP_DIR, "index.html"), "utf-8");
+
+const escapeHtml = (text) =>
+    text.replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    }[char]));
+
+const renderIndexHtml = async () => {
+    const todos = await axios.get("http://todo-backend-svc:2351/todos")
+        .then(response => response.data.todos.filter(Boolean))
+        .catch(() => []);
+    const items = todos.map((text) => `<li>${escapeHtml(text)}</li>`).join("\n        ");
+
+    return indexTemplate.replace("<!--TODOS-->", items);
+};
+
 app.use("/images", express.static(PV_PATH));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const downloadImage = async () => {
     console.log("Starting image download...");
@@ -57,17 +79,13 @@ app.get("/", async (req, res) => {
         if (imageAge < tenMinutes) {
             console.log("Image is recent, serving existing image.");
 
-            return res.sendFile("index.html", {
-                root: APP_DIR
-            });
+            return res.send(await renderIndexHtml());
         }
 
         console.log("Image is old.");
 
         // Send the page immediately
-        res.sendFile("index.html", {
-            root: APP_DIR
-        });
+        res.send(await renderIndexHtml());
 
         // Download in the background
         try {
@@ -87,14 +105,30 @@ app.get("/", async (req, res) => {
 
         console.log("Sending index.html...");
 
-        return res.sendFile("index.html", {
-            root: APP_DIR
-        });
+        return res.send(await renderIndexHtml());
     } catch (error) {
         console.error("Error fetching image:", error);
 
         return res.status(500).send("Failed to download image");
     }
+});
+
+
+app.post("/add-todo-item", async (req, res) => {
+
+    console.log(`Received todo request: ${JSON.stringify(req.body)}`);
+    const text = req.body?.text?.trim() || "";
+
+    try {
+        await axios.post("http://todo-backend-svc:2351/todos", { data: text });
+    } catch (error) {
+        console.error("Error forwarding todo to backend:", error);
+
+        return res.status(502).send("Failed to save todo");
+    }
+
+    console.log(`Received todo: ${text}`);
+    return res.redirect(303, "/");
 });
 
 app.use(express.static(APP_DIR));

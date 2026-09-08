@@ -11,12 +11,12 @@
         font-family: Arial, sans-serif;
     }
 
-    .todo-input-container {
+    form#todoForm {
         text-align: center;
         margin-top: 20px;
     }
 
-    .todo-input-container input {
+    form#todoForm input {
         margin-top: 20px;
         padding-left: 10px;
         width: 400px;
@@ -25,7 +25,7 @@
         border: 1px solid #22be49;
     }
 
-    .todo-input-container button {
+    form#todoForm button {
         height: 40px;
         width: 100px;
         border-radius: 5px;
@@ -62,17 +62,14 @@
         <img src="/images/image.jpg" alt="Random Image" width="250" style="border-radius: 10px;">
     </div>
 
-    <div class="todo-input-container">
-
-        <input type="text" id="todoInput" maxlength="140" placeholder="Write a todo (max 140 characters)">
+    <form id="todoForm" method="POST" action="/add-todo-item">
+        <input type="text" id="todoInput" name="text" maxlength="140" placeholder="Write a todo (max 140 characters)">
         <button id="sendButton">Send</button>
         <h2 id="todoCount">Total todos</h2>
-    </div>
+    </form>
 
     <ul id="todoList">
-        <li>Learn Kubernetes basics</li>
-        <li>Deploy application to cluster</li>
-        <li>Configure Persistent Volumes</li>
+        <!--TODOS-->
     </ul>
 </body>
 

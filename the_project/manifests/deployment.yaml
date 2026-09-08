@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: the-project
-          image: levonml/1.13:latest
+          image: levonml/2-2-the-project:latest
           imagePullPolicy: Always
           env:
             - name: PORT
