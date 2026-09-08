@@ -18,7 +18,7 @@ spec:
             claimName: shared-logs-claim
       containers:
         - name: string-reader
-          image: levonml/1.11-reader:latest
+          image: levonml/2.1-reader:latest
           volumeMounts:
           - name: shared-logs
             mountPath: /tmp/kube

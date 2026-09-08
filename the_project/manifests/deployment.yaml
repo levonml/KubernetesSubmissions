@@ -15,6 +15,7 @@ spec:
       containers:
         - name: the-project
           image: levonml/1.13:latest
+          imagePullPolicy: Always
           env:
             - name: PORT
               value: "3000"
