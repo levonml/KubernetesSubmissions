@@ -21,3 +21,4 @@
 ### Chapter 3
 
  - [2.1](https://github.com/levonml/KubernetesSubmissions/tree/2.1/log_outputs)
+ - [2.2](https://github.com/levonml/KubernetesSubmissions/tree/2.2/the_project)
