@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: exercises
+  namespace: project
   name: the-project
 spec:
   replicas: 1
@@ -21,9 +21,9 @@ spec:
             - name: PORT
               value: "3000"
           volumeMounts:
-          - name: shared-logs
+          - name: the-project-volume
             mountPath: /tmp/kube
       volumes:
-        - name: shared-logs
+        - name: the-project-volume
           persistentVolumeClaim:
-            claimName: shared-logs-claim
+            claimName: the-project-claim
