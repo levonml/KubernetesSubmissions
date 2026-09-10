@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: levonml/2-2-todo-backend:latest
+          image: levonml/2-6-todo-backend:latest
           imagePullPolicy: Always
           env:
             - name: PORT

@@ -15,11 +15,11 @@ spec:
     spec:
       containers:
         - name: the-project
-          image: levonml/2-2-the-project:latest
+          image: levonml/2-6-the-project:latest
           imagePullPolicy: Always
-          env:
-            - name: PORT
-              value: "3000"
+          envFrom:
+            - configMapRef:
+                name: the-project-config-map
           volumeMounts:
           - name: the-project-volume
             mountPath: /tmp/kube
@@ -27,3 +27,6 @@ spec:
         - name: the-project-volume
           persistentVolumeClaim:
             claimName: the-project-claim
+        - name: the-project-config
+          configMap:
+            name: the-project-config-map

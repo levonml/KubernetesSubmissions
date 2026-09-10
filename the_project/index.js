@@ -2,12 +2,17 @@ import express from "express";
 import axios from "axios";
 import fs from "fs";
 import path from "path";
+import dotenv from "dotenv";
 
+dotenv.config();
 const app = express();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 const APP_DIR = process.cwd();
-const PV_PATH = "/tmp/kube";
+const backendUrl = process.env.BACKEND_URL;
+const imageUrl = process.env.IMAGE_URL;
+
+const PV_PATH = process.env.PV_PATH;
 const imagePath = path.join(PV_PATH, "image.jpg");
 
 const tenMinutes = 10 * 60 * 1000;
@@ -15,7 +20,7 @@ const tenMinutes = 10 * 60 * 1000;
 // placeholder store until todo-backend takes over persistence
 
 const indexTemplate = fs.readFileSync(path.join(APP_DIR, "index.html"), "utf-8");
-
+console.log("logs from ex 2.6");
 const escapeHtml = (text) =>
     text.replace(/[&<>"']/g, (char) => ({
         "&": "&amp;",
@@ -26,7 +31,7 @@ const escapeHtml = (text) =>
     }[char]));
 
 const renderIndexHtml = async () => {
-    const todos = await axios.get("http://todo-backend-svc:2351/todos")
+    const todos = await axios.get(`${backendUrl}/todos`)
         .then(response => response.data.todos.filter(Boolean))
         .catch(() => []);
     const items = todos.map((text) => `<li>${escapeHtml(text)}</li>`).join("\n        ");
@@ -41,12 +46,7 @@ app.use(express.urlencoded({ extended: true }));
 const downloadImage = async () => {
     console.log("Starting image download...");
 
-    const imageResponse = await axios.get(
-        "https://picsum.photos/1200",
-        {
-            responseType: "stream"
-        }
-    );
+    const imageResponse = await axios.get(imageUrl, { responseType: "stream" });
 
     const writer = fs.createWriteStream(imagePath);
 
@@ -120,7 +120,7 @@ app.post("/add-todo-item", async (req, res) => {
     const text = req.body?.text?.trim() || "";
 
     try {
-        await axios.post("http://todo-backend-svc:2351/todos", { data: text });
+        await axios.post(`${backendUrl}/todos`, { data: text });
     } catch (error) {
         console.error("Error forwarding todo to backend:", error);
 

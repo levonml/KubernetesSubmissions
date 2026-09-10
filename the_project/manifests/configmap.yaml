@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: the-project-config-map
+data:
+  PORT: "3000"
+  BACKEND_URL: "http://todo-backend-svc:2351"
+  PV_PATH: "/tmp/kube"
+  IMAGE_URL: "https://picsum.photos/1200"
