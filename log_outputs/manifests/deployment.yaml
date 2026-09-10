@@ -17,12 +17,26 @@ spec:
         - name: shared-logs
           persistentVolumeClaim:
             claimName: shared-logs-claim
+        - name: config-volume
+          configMap:
+            name: log-output-config-map
+            items:
+              - key: information.txt
+                path: information.txt
       containers:
         - name: string-reader
-          image: levonml/2.1-reader:latest
+          image: levonml/2-5-reader:latest
           volumeMounts:
           - name: shared-logs
             mountPath: /tmp/kube
+          - name: config-volume
+            mountPath: /etc/kube/configmap
+          env:
+          - name: MESSAGE
+            valueFrom:
+              configMapKeyRef:
+                name: log-output-config-map
+                key: my-message
         - name: string-writer
           image: levonml/1.11-writer:latest
           volumeMounts:

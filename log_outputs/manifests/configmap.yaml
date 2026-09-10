@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: log-output-config-map
+data:
+  # property-like keys; each key maps to a simple value
+  my-message: "this is a message from configmap"
+
+  # file-like keys
+  information.txt: |
+    this is an information from the configmap
