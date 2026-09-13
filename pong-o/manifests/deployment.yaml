@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: pong-o
-          image: levonml/2.1-pong-o:latest
+          image: levonml/2-7-pong-o:latest
           imagePullPolicy: Always
           #volumeMounts:
           #- name: shared-logs
