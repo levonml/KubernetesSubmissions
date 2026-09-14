@@ -26,3 +26,5 @@
  - [2.4](https://github.com/levonml/KubernetesSubmissions/tree/2.4)
  - [2.5](https://github.com/levonml/KubernetesSubmissions/tree/2.5/log_outputs)
  - [2.6](https://github.com/levonml/KubernetesSubmissions/tree/2.6/the_project)
+ - [2.7](https://github.com/levonml/KubernetesSubmissions/tree/2.7/pong-o)
+ - [2.8](https://github.com/levonml/KubernetesSubmissions/tree/2.8/todo-backend)

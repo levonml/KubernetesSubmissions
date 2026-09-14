@@ -15,9 +15,24 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: levonml/2-6-todo-backend:latest
+          image: levonml/2-8-todo-backend:latest
           imagePullPolicy: Always
           env:
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: the-project-config-map
+                  key: DB_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: the-project-config-map
+                  key: DB_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: the-project-config-map
+                  key: DB_NAME
             - name: PORT
               value: "3000"
          
