@@ -4,7 +4,7 @@ metadata:
   namespace: project
   name: addtodoperhour
 spec:
-  schedule: "* * * * *"  # Run every minute
+  schedule: "0 * * * *"  # Run every hour
   jobTemplate:
     spec:
       template:
