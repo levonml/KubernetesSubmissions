@@ -20,7 +20,7 @@ const tenMinutes = 10 * 60 * 1000;
 // placeholder store until todo-backend takes over persistence
 
 const indexTemplate = fs.readFileSync(path.join(APP_DIR, "index.html"), "utf-8");
-console.log("logs from ex 2.6");
+console.log("logs from the project");
 const escapeHtml = (text) =>
     text.replace(/[&<>"']/g, (char) => ({
         "&": "&amp;",
@@ -34,6 +34,7 @@ const renderIndexHtml = async () => {
     const todos = await axios.get(`${backendUrl}/todos`)
         .then(response => response.data.todos.filter(Boolean))
         .catch(() => []);
+        console.log(">>>> todos", todos)
     const items = todos.map((text) => `<li>${escapeHtml(text)}</li>`).join("\n        ");
 
     return indexTemplate.replace("<!--TODOS-->", items);
