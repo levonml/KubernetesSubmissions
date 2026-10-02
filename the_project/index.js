@@ -34,7 +34,7 @@ const renderIndexHtml = async () => {
     const todos = await axios.get(`${backendUrl}/todos`)
         .then(response => response.data.todos.filter(Boolean))
         .catch(() => []);
-        console.log(">>>> todos", todos)
+    //console.log(">>>> todos", todos)
     const items = todos.map((text) => `<li>${escapeHtml(text)}</li>`).join("\n        ");
 
     return indexTemplate.replace("<!--TODOS-->", items);
@@ -117,18 +117,18 @@ app.get("/", async (req, res) => {
 
 app.post("/add-todo-item", async (req, res) => {
 
-    console.log(`Received todo request: ${JSON.stringify(req.body)}`);
+    //console.log(`Received todo request: ${JSON.stringify(req.body)}`);
     const text = req.body?.text?.trim() || "";
 
     try {
         await axios.post(`${backendUrl}/todos`, { data: text });
     } catch (error) {
-        console.error("Error forwarding todo to backend:", error);
+        console.error("Error forwarding todo to backend:", error?.message || "Unknown error");
 
         return res.status(502).send("Failed to save todo");
     }
 
-    console.log(`Received todo: ${text}`);
+    //console.log(`Received todo: ${text}`);
     return res.redirect(303, "/");
 });
 

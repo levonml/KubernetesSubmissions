@@ -6,7 +6,7 @@ DOCKER_USER=$2
 IMAGE="$DOCKER_USER/$APP_NAME"
 
 if [ -z "$APP_NAME" ] || [ -z "$DOCKER_USER" ]; then
-    echo "Usage: ./deploy.sh <app-name> <docker-user>"
+    echo "Usage: ./deploy.sh <app-name-and-version> <docker-user>"
     echo "Example: ./deploy.sh pong-o mydockeruser"
     exit 1
 fi

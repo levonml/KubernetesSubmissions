@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: project
+  namespace: exercises
   name: the-project
 spec:
   replicas: 1
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: the-project
-          image: levonml/2-6-the-project:latest
+          image: levonml/2-10-the-project:latest
           imagePullPolicy: Always
           envFrom:
             - configMapRef:

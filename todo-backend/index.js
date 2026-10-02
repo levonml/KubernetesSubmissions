@@ -55,7 +55,11 @@ app.get('/todos', async (req, res) => {
 
 app.post('/todos', async (req, res) => {
     const { data } = req.body;
-    console.log(`Received todo in the backend: ${JSON.stringify(data)}`);
+    console.log(`Received todo item in the backend: ${JSON.stringify(data)}`, "data.length", data.length,);
+    if (data.length > 140) {
+        console.log(`Received todo in the backend and blocked because it exceeds 140 characters: ${JSON.stringify(data)}`);
+        return res.status(400).json({ error: 'Todo exceeds 140 characters' });
+    }
 
     try {
         const result = await client.query('INSERT INTO todos (data) VALUES ($1) RETURNING *', [data]);

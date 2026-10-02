@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: project
+  namespace: exercises
   name: todo-backend
 spec:
   replicas: 1
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: levonml/2-8-todo-backend:latest
+          image: levonml/2-10-todo-backend:latest
           imagePullPolicy: Always
           env:
             - name: POSTGRES_USER
