@@ -29,3 +29,4 @@
  - [2.7](https://github.com/levonml/KubernetesSubmissions/tree/2.7/pong-o)
  - [2.8](https://github.com/levonml/KubernetesSubmissions/tree/2.8/todo-backend)
  - [2.9](https://github.com/levonml/KubernetesSubmissions/tree/2.9/todo-backend)
+ - [2.10](https://github.com/levonml/KubernetesSubmissions/tree/2.10/todo-backend)
