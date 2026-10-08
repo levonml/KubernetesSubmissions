@@ -14,4 +14,23 @@
   - [1.8](https://github.com/levonml/KubernetesSubmissions/tree/1.8/the_project)
   - [1.9](https://github.com/levonml/KubernetesSubmissions/tree/1.9/pong-o)
   - [1.10](https://github.com/levonml/KubernetesSubmissions/tree/1.10/log_outputs)
+  - [1.11](https://github.com/levonml/KubernetesSubmissions/tree/1.11)  
+  - [1.12](https://github.com/levonml/KubernetesSubmissions/tree/1.12.1/the_project)
+  - [1.13](https://github.com/levonml/KubernetesSubmissions/tree/1.13/the_project)
 
+### Chapter 3
+
+ - [2.1](https://github.com/levonml/KubernetesSubmissions/tree/2.1/log_outputs)
+ - [2.2](https://github.com/levonml/KubernetesSubmissions/tree/2.2/the_project)
+ - [2.3](https://github.com/levonml/KubernetesSubmissions/tree/2.3)
+ - [2.4](https://github.com/levonml/KubernetesSubmissions/tree/2.4)
+ - [2.5](https://github.com/levonml/KubernetesSubmissions/tree/2.5/log_outputs)
+ - [2.6](https://github.com/levonml/KubernetesSubmissions/tree/2.6/the_project)
+ - [2.7](https://github.com/levonml/KubernetesSubmissions/tree/2.7/pong-o)
+ - [2.8](https://github.com/levonml/KubernetesSubmissions/tree/2.8/todo-backend)
+ - [2.9](https://github.com/levonml/KubernetesSubmissions/tree/2.9/todo-backend)
+ - [2.10](https://github.com/levonml/KubernetesSubmissions/tree/2.10/todo-backend)
+
+### Chapter 4
+
+- [3.1](https://github.com/levonml/KubernetesSubmissions/tree/3.1/ping-o)
