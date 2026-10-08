@@ -6,8 +6,8 @@ import path from 'path'
 const app = express()
 let currentStatus
 
-const logFilePath = '/tmp/kube/logoutput.txt'
-const pongCounterFilePath = '/tmp/kube/pongcounter.txt'
+const logFilePath = '/tmp/gke-logs/logoutput.txt'
+const pongCounterFilePath = '/tmp/gke-logs/pongcounter.txt'
 fs.mkdirSync(path.dirname(logFilePath), { recursive: true })
 fs.mkdirSync(path.dirname(pongCounterFilePath), { recursive: true })
 
