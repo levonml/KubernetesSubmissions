@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: exercises
   name: log-output
 spec:
   replicas: 1
@@ -15,10 +16,10 @@ spec:
       volumes:
         - name: shared-logs
           persistentVolumeClaim:
-            claimName: shared-logs-claim
+            claimName: shared-logs-claim-log-outputs
       containers:
         - name: string-reader
-          image: levonml/1.11-reader:latest
+          image: levonml/3-2-string-read:latest
           volumeMounts:
           - name: shared-logs
             mountPath: /tmp/kube

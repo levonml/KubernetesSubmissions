@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: pong-o
-          image: levonml/1.11-pong-o:latest
+          image: levonml/3-2-pingpong:latest
           volumeMounts:
           - name: shared-logs
             mountPath: /tmp/kube

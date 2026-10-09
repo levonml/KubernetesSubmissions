@@ -6,11 +6,21 @@ const app = express()
 
 let counter = 0;
 fs.mkdirSync('/tmp/kube', { recursive: true })
+
+app.get('/', (req, res) => {
+  res.status(200).send('OK');
+});
+
 app.get('/pingpong', (req, res) => {
 
     counter++;
     fs.writeFileSync('/tmp/kube/pongcounter.txt', `${counter}\n`)
     res.send(`pongs: ${counter}`);
+})
+
+app.get('/pings', (req, res) => {
+    console.log(`Received pings request, current counter: ${counter}`)
+    res.send(String(counter))
 })
 
 app.listen(3000, () => {
