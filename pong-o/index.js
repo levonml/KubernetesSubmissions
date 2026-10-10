@@ -7,11 +7,8 @@ const app = express()
 let counter = 0;
 fs.mkdirSync('/tmp/kube', { recursive: true })
 
-app.get('/', (req, res) => {
-  res.status(200).send('OK');
-});
 
-app.get('/pingpong', (req, res) => {
+app.get('/', (req, res) => {
 
     counter++;
     fs.writeFileSync('/tmp/kube/pongcounter.txt', `${counter}\n`)
