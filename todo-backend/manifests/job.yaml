@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: exercises
+  name: addtodoperhour
+spec:
+  schedule: "0 * * * *"  # Run every hour
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: addtodoperhour
+            image: curlimages/curl:8.10.1
+            command: ["/bin/sh", "-c", "sh /scripts/articlescript.sh"]
+            env:
+            - name: BACKEND_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: the-project-config-map
+                  key: BACKEND_URL
+            volumeMounts:
+              - name: script-volume
+                mountPath: /scripts
+          restartPolicy: Never
+          volumes:
+            - name: script-volume
+              configMap:
+                name: todo-backend-config
+                items:
+                  - key: articlescript.sh
+                    path: articlescript.sh

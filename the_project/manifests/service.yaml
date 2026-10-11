@@ -2,11 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: the-project-svc
+  namespace: exercises
 spec:
   type: ClusterIP
   selector:
     app: the-project # This is the app as declared in the deployment.
   ports:
     - protocol: TCP
-      port: 2347 # This is a port that is available to the cluster, in this case it can be ~ anything
+      port: 2350 # This is a port that is available to the cluster, in this case it can be ~ anything
       targetPort: 3000 # This is the target port

@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: exercises
   name: the-project
 spec:
   replicas: 1
@@ -14,7 +15,18 @@ spec:
     spec:
       containers:
         - name: the-project
-          image: levonml/1.8:latest
-          env:
-            - name: PORT
-              value: "3000"
+          image: levonml/2-10-the-project:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: the-project-config-map
+          volumeMounts:
+          - name: the-project-volume
+            mountPath: /tmp/kube
+      volumes:
+        - name: the-project-volume
+          persistentVolumeClaim:
+            claimName: the-project-claim
+        - name: the-project-config
+          configMap:
+            name: the-project-config-map
