@@ -35,4 +35,10 @@ spec:
                   key: DB_NAME
             - name: PORT
               value: "3000"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
          
