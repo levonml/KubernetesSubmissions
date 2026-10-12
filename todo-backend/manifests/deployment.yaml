@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: levonml/3-5-todo-backend:latest
+          image: levonml/3-6-todo-backend:latest
           imagePullPolicy: Always
           env:
             - name: POSTGRES_USER
