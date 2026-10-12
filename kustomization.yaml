@@ -10,7 +10,7 @@ resources:
   - todo-backend/manifests/configmap.yaml
   - todo-backend/manifests/deployment.yaml
   - todo-backend/manifests/service.yaml 
-  - todo-backend/manifests/statefulset.yaml  
+  - todo-backend/manifests/statefulset-postgres.yaml  
 images:
   - name: PROJECT/IMAGE_BACKEND
     newName: placholder
