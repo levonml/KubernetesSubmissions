@@ -42,6 +42,9 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
 
+app.get('/', async (req, res) => {
+    res.status(200).send('OK');
+});
 app.get('/todos', async (req, res) => {
     try {
         const result = await client.query('SELECT data FROM todos');
