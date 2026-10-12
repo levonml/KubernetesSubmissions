@@ -47,11 +47,7 @@ spec:
         name: postgres-data-storage
       spec:
         accessModes: ["ReadWriteOnce"]
-<<<<<<< HEAD
-        storageClassName: local-path
-=======
         storageClassName: standard-rwo
->>>>>>> refs/heads/3.1
         resources:
           requests:
             storage: 100Mi
