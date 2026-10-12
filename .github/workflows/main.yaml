@@ -2,6 +2,8 @@ name: The Project CI/CD Pipeline
 
 on:
   push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -69,8 +71,8 @@ jobs:
       
       - name: Deploy
         run: |-
-          kustomize edit set image PROJECT/IMAGE_FRONTEND=$FRONTEND_IMAGE_TAG
-          kustomize edit set image PROJECT/IMAGE_BACKEND=$BACKEND_IMAGE_TAG
+          kustomize edit set image PROJECT/IMAGE_FRONTEND=$FRONTEND_IMAGE
+          kustomize edit set image PROJECT/IMAGE_BACKEND=$BACKEND_IMAGE
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment ${FRONTEND_DEPLOYMENT} -n exercises
           kubectl rollout status deployment ${BACKEND_DEPLOYMENT} -n exercises
