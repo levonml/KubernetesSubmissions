@@ -6,12 +6,9 @@ metadata:
 spec:
   serviceName: postgres-svc-todo
   replicas: 1
-<<<<<<< HEAD
-=======
   spec:
     updateStrategy:
       type: RollingUpdate
->>>>>>> refs/heads/3.1
   selector:
     matchLabels:
       database: todoapp-postgres
