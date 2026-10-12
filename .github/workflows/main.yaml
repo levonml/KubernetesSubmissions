@@ -14,7 +14,7 @@ env:
   GKE_CLUSTER: dwk-cluster
   GKE_ZONE: europe-north1-b
   REGISTRY: europe-north1-docker.pkg.dev
-  REPOSITORY: the-project-repository
+  REPOSITORY: my-demo-repository
   FRONTEND_IMAGE: levonml/2-10-the-project
   BACKEND_IMAGE: levonml/3-5-todo-backend
   FRONTEND_DEPLOYMENT: the-project
