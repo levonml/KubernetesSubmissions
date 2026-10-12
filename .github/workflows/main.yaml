@@ -1,0 +1,78 @@
+name: The Project CI/CD Pipeline
+
+on:
+  push:
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: dwk-cluster
+  GKE_ZONE: europe-north1-b
+  REGISTRY: europe-north1-docker.pkg.dev
+  REPOSITORY: the-project-repository
+  FRONTEND_IMAGE: levonml/2-10-the-project
+  BACKEND_IMAGE: levonml/3-5-todo-backend
+  FRONTEND_DEPLOYMENT: the-project
+  BACKEND_DEPLOYMENT: todo-backend
+  BRANCH: ${{ github.ref_name }}
+
+jobs:
+  build-publish-deploy:
+    name: Build, Publish and Deploy
+    runs-on: ubuntu-latest
+    environment: The-project
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      
+      - uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: "${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}"
+          service_account: "${{ secrets.SERVICE_ACCOUNT }}"
+
+      - name: 'Set up Cloud SDK'
+        uses: google-github-actions/setup-gcloud@v3
+
+      - name: 'Use gcloud CLI'
+        run: gcloud info
+      - run: gcloud --quiet auth configure-docker $REGISTRY
+
+      - name: 'Get GKE credentials'
+        uses: 'google-github-actions/get-gke-credentials@v3'
+        with:
+          cluster_name: '${{ env.GKE_CLUSTER }}'
+          project_id: '${{ env.PROJECT_ID }}'
+          location: '${{ env.GKE_ZONE }}'
+
+      - name : 'Form the image names'
+        run: echo "FRONTEND_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$FRONTEND_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+      - run: echo "BACKEND_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$BACKEND_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
+
+      - name: Build Frontend
+        run: docker build --tag $FRONTEND_IMAGE_TAG ./the_project
+
+      - name: Publish Frontend
+        run: docker push $FRONTEND_IMAGE_TAG
+
+      - name: Build Backend
+        run: docker build --tag $BACKEND_IMAGE_TAG ./todo-backend
+
+      - name: Publish Backend
+        run: docker push $BACKEND_IMAGE_TAG
+
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v3
+      
+      - name: Deploy
+        run: |-
+          kustomize edit set image PROJECT/IMAGE_FRONTEND=$FRONTEND_IMAGE_TAG
+          kustomize edit set image PROJECT/IMAGE_BACKEND=$BACKEND_IMAGE_TAG
+          kustomize build . | kubectl apply -f -
+          kubectl rollout status deployment ${FRONTEND_DEPLOYMENT} -n exercises
+          kubectl rollout status deployment ${BACKEND_DEPLOYMENT} -n exercises
+          kubectl get services -o wide
+        
