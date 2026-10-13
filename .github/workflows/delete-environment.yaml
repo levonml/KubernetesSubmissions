@@ -35,6 +35,5 @@ jobs:
       - name: Delete namespace
         env:
           BRANCH_NAME: ${{ github.event.ref }}
-        run: kubectl delete namespace "$BRANCH_NAME" \
-            --ignore-not-found=true
+        run: kubectl delete namespace "$BRANCH_NAME" --ignore-not-found=true
 
