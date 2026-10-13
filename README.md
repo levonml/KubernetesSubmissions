@@ -41,3 +41,24 @@
 - [3.6](https://github.com/levonml/KubernetesSubmissions/tree/3.6)
 - [3.7](https://github.com/levonml/KubernetesSubmissions/tree/3.7)
 - [3.8](https://github.com/levonml/KubernetesSubmissions/tree/3.8)
+- [3.9](https://github.com/levonml/KubernetesSubmissions/tree/3.9)
+
+
+## 3.9. DBaaS vs DIY
+
+DIY Pros:
+  Cheeper
+  Complete control over PostgeSQL versions
+
+DIY Cons:
+  Kubernetes PersistentVolume access mode can be limiting and/or require more configuration work for making the volume accessible across multiple nodes. 
+  Manual backup configurations and updates.
+  Requires more administration
+
+DBaaS Pros:
+  Supports database usage across multiple nodes.
+  Managed automated backups and updates
+  Simple/minimal administration
+
+DBaaS Cons:
+  More expancive
