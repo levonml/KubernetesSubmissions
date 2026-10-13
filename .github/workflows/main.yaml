@@ -2,8 +2,6 @@ name: The Project CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
 
 permissions:
   contents: read
@@ -71,9 +69,15 @@ jobs:
       
       - name: Deploy
         run: |-
-          kubectl create namespace ${GITHUB_REF#refs/heads/} || true
-          kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
-          kustomize edit set namespace ${GITHUB_REF#refs/heads/}
+          if [ "$GITHUB_REF_NAME" = "main" ]; 
+          then
+          NAMESPACE=project
+          else
+          NAMESPACE="$GITHUB_REF_NAME"
+          fi
+          kubectl create namespace ${NAMESPACE} || true
+          kubectl config set-context --current --namespace=${NAMESPACE}
+          kustomize edit set namespace ${NAMESPACE}
           kustomize edit set image PROJECT/IMAGE_FRONTEND=$FRONTEND_IMAGE
           kustomize edit set image PROJECT/IMAGE_BACKEND=$BACKEND_IMAGE
           kustomize build . | kubectl apply -f -
