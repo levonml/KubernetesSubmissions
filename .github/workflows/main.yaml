@@ -71,10 +71,13 @@ jobs:
       
       - name: Deploy
         run: |-
+          kubectl create namespace ${GITHUB_REF#refs/heads/} || true
+          kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
+          kustomize edit set namespace ${GITHUB_REF#refs/heads/}
           kustomize edit set image PROJECT/IMAGE_FRONTEND=$FRONTEND_IMAGE
           kustomize edit set image PROJECT/IMAGE_BACKEND=$BACKEND_IMAGE
           kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment ${FRONTEND_DEPLOYMENT} -n exercises
-          kubectl rollout status deployment ${BACKEND_DEPLOYMENT} -n exercises
+          kubectl rollout status deployment ${FRONTEND_DEPLOYMENT} 
+          kubectl rollout status deployment ${BACKEND_DEPLOYMENT} 
           kubectl get services -o wide
         
