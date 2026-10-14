@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: postgres-backup
 spec:
-  schedule: "* * * * *"
+  schedule: "* 3 * * *" # Run every day at 3 AM
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
@@ -31,7 +31,7 @@ spec:
                       name: the-project-config-map
                       key: BACKUP_URL
                 - name: BUCKET
-                  value: "gs://the-project-backup-backet"
+                  value: "gs://the-project-backup-bucket"
               command:
                 - /bin/sh
                 - -c
