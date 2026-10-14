@@ -35,12 +35,14 @@ spec:
                 configMapKeyRef:
                   name: the-project-config-map
                   key: DB_NAME
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
           ports:
             - name: web
               containerPort: 5432
           volumeMounts:
             - name: postgres-data-storage
-              mountPath: /var/lib/todo/postgresql
+              mountPath: /var/lib/postgresql/data
   volumeClaimTemplates:
     - metadata:
         name: postgres-data-storage
