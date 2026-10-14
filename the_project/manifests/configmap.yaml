@@ -11,4 +11,6 @@ data:
   DB_USER: "postgres"
   DB_PASSWORD: "postgres"
   DB_NAME: "postgres"
+  BACKUP_URL: postgres://postgres:postgres@postgres-svc-todo:5432/postgres
+  
   

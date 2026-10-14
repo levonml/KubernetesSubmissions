@@ -1,32 +1,55 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  namespace: project
-  name: addtodoperhour
+  name: postgres-backup
 spec:
-  schedule: "0 * * * *"  # Run every hour
+  schedule: "* * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
+      backoffLimit: 2
       template:
         spec:
-          containers:
-          - name: addtodoperhour
-            image: curlimages/curl:8.10.1
-            command: ["/bin/sh", "-c", "sh /scripts/articlescript.sh"]
-            env:
-            - name: BACKEND_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: the-project-config-map
-                  key: BACKEND_URL
-            volumeMounts:
-              - name: script-volume
-                mountPath: /scripts
-          restartPolicy: Never
+          restartPolicy: OnFailure
           volumes:
-            - name: script-volume
-              configMap:
-                name: todo-backend-config
-                items:
-                  - key: articlescript.sh
-                    path: articlescript.sh
+            - name: google-key
+              secret:
+                secretName: storage-sa-key
+          containers:
+            - name: backup
+              image: google/cloud-sdk:slim
+              volumeMounts:
+                - name: google-key
+                  mountPath: /var/secrets/google
+                  readOnly: true
+              env:
+                - name: DATABASE_URL
+                  valueFrom:
+                    configMapKeyRef:
+                      name: the-project-config-map
+                      key: BACKUP_URL
+                - name: BUCKET
+                  value: "gs://the-project-backup-bucket"
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -eu
+
+                  apt-get update
+                  apt-get install -y --no-install-recommends postgresql-client
+                  rm -rf /var/lib/apt/lists/*
+
+                  timestamp="$(date -u +%Y-%m-%dT%H-%M-%SZ)"
+                  backup_file="/tmp/postgres-${timestamp}.sql"
+
+                  pg_dump --verbose "$DATABASE_URL" > "$backup_file"
+
+                  gcloud auth activate-service-account \
+                    --key-file=/var/secrets/google/key.json
+
+                  gcloud storage cp \
+                    "$backup_file" \
+                    "$BUCKET/postgres/${timestamp}.sql"
