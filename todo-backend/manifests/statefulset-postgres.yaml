@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: postgrestodo
-          image: postgres
+          image: postgres:17
           env:
             - name: POSTGRES_USER
               valueFrom:
