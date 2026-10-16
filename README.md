@@ -46,11 +46,6 @@
 - [3.11](https://github.com/levonml/KubernetesSubmissions/tree/3.11)
 - [3.12](https://github.com/levonml/KubernetesSubmissions/tree/3.12)
 
+### Chapter 5
 
-### Exercise  3.12
-
-#### Logs from local terminal
-![logs from local terminal](local-logs.png)
-
-#### Logs from the Google Cloud  UI
-![logs from the Google Cloud  UI](gcloud-logs.png)
+- [4.1](https://github.com/levonml/KubernetesSubmissions/tree/4.1)

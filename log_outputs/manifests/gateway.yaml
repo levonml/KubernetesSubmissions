@@ -1,10 +1,10 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: the-project-gateway
-  namespace: project
+  name: log-output-gateway
+  namespace: exercises
 spec:
-  gatewayClassName: gke-l7-global-external-managed
+  gatewayClassName: eg
   listeners:
   - name: http
     protocol: HTTP

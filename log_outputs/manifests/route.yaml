@@ -1,23 +1,23 @@
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
-  name: the-project-route
-  namespace: project
+  name: log-output-route
+  namespace: exercises
 spec:
   parentRefs:
-  - name: the-project-gateway
+  - name: log-output-gateway
   rules:
   - matches:
     - path:
         type: PathPrefix
-        value: /
+        value: /showlogs
     backendRefs:
-    - name: the-project-svc
-      port: 2350
+    - name: log-output-svc
+      port: 2345
   - matches:
     - path:
         type: PathPrefix
-        value: /todos
+        value: /pingpong
     backendRefs:
-    - name: todo-backend-svc
-      port: 2351
+    - name: pong-o-svc
+      port: 2346
