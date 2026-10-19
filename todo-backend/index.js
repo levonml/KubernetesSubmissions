@@ -18,8 +18,6 @@ const dbConfig = {
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
     max: 10,
-    connectionTimeoutMillis: 5000,
-    idleTimeoutMillis: 30000
 };
 
 const pool = new Pool(dbConfig);
@@ -59,12 +57,12 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
 
-app.get('/', (req, res) => {
+app.get('/livez', (req, res) => {
     res.status(200).send('OK');
 });
 
 // For readiness probe: reports 500 if the database is unreachable
-app.get('/health', async (req, res) => {
+app.get('/healthz', async (req, res) => {
     try {
         await pool.query('SELECT 1');
         res.status(200).send('OK');

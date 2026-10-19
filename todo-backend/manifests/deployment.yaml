@@ -37,9 +37,14 @@ spec:
             - name: PORT
               value: "3000"
           readinessProbe:
+            initialDelaySeconds: 5 # Initial delay until the readiness is tested
+            periodSeconds: 5 # How often to test
             httpGet:
-              path: /health
-              port: 3000
-            initialDelaySeconds: 5
-            periodSeconds: 5
-         
+               path: /healthz
+               port: 3000
+          livenessProbe:
+            initialDelaySeconds: 20 # Initial delay until the liveness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+               path: /livez
+               port: 3000
