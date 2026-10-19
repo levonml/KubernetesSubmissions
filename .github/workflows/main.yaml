@@ -7,8 +7,8 @@ permissions:
   contents: read
 
 env:
-  FRONTEND_IMAGE: levonml/2-10-the-project
-  BACKEND_IMAGE: levonml/3-6-todo-backend
+  FRONTEND_IMAGE: levonml/4-2-the-project
+  BACKEND_IMAGE: levonml/4-2-todo-backend
   FRONTEND_DEPLOYMENT: the-project
   BACKEND_DEPLOYMENT: todo-backend
 

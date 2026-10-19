@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  namespace: exercises
+  namespace: project
   name: addtodoperhour
 spec:
   schedule: "0 * * * *"  # Run every hour
