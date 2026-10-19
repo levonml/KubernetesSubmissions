@@ -5,84 +5,71 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: dwk-cluster
-  GKE_ZONE: europe-north1-b
-  REGISTRY: europe-north1-docker.pkg.dev
-  REPOSITORY: my-demo-repository
   FRONTEND_IMAGE: levonml/2-10-the-project
-  BACKEND_IMAGE: levonml/3-5-todo-backend
+  BACKEND_IMAGE: levonml/3-6-todo-backend
   FRONTEND_DEPLOYMENT: the-project
   BACKEND_DEPLOYMENT: todo-backend
-  BRANCH: ${{ github.ref_name }}
 
 jobs:
-  build-publish-deploy:
+  build-publish:
     if: github.ref_type == 'branch'
-    name: Build, Publish and Deploy
+    name: Build and Publish
     runs-on: ubuntu-latest
-    environment: The-project
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+      namespace: ${{ steps.tag.outputs.namespace }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      
-      - uses: google-github-actions/auth@v3
+
+      - name: Form image tag and namespace
+        id: tag
+        run: |
+          if [ "$GITHUB_REF_NAME" = "main" ]; then NAMESPACE=project; else NAMESPACE="$GITHUB_REF_NAME"; fi
+          echo "tag=$GITHUB_REF_NAME-$GITHUB_SHA" >> $GITHUB_OUTPUT
+          echo "namespace=$NAMESPACE" >> $GITHUB_OUTPUT
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
         with:
-          workload_identity_provider: "${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}"
-          service_account: "${{ secrets.SERVICE_ACCOUNT }}"
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: 'Set up Cloud SDK'
-        uses: google-github-actions/setup-gcloud@v3
+      - name: Build and push Frontend
+        run: |
+          docker build --tag $FRONTEND_IMAGE:${{ steps.tag.outputs.tag }} ./the_project
+          docker push $FRONTEND_IMAGE:${{ steps.tag.outputs.tag }}
 
-      - name: 'Use gcloud CLI'
-        run: gcloud info
-      - run: gcloud --quiet auth configure-docker $REGISTRY
+      - name: Build and push Backend
+        run: |
+          docker build --tag $BACKEND_IMAGE:${{ steps.tag.outputs.tag }} ./todo-backend
+          docker push $BACKEND_IMAGE:${{ steps.tag.outputs.tag }}
 
-      - name: 'Get GKE credentials'
-        uses: 'google-github-actions/get-gke-credentials@v3'
-        with:
-          cluster_name: '${{ env.GKE_CLUSTER }}'
-          project_id: '${{ env.PROJECT_ID }}'
-          location: '${{ env.GKE_ZONE }}'
+  deploy:
+    name: Deploy to k3d
+    needs: build-publish
+    runs-on: self-hosted
+    env:
+      TAG: ${{ needs.build-publish.outputs.tag }}
+      NAMESPACE: ${{ needs.build-publish.outputs.namespace }}
 
-      - name : 'Form the image names'
-        run: echo "FRONTEND_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$FRONTEND_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
-      - run: echo "BACKEND_IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$BACKEND_IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
-
-      - name: Build Frontend
-        run: docker build --tag $FRONTEND_IMAGE_TAG ./the_project
-
-      - name: Publish Frontend
-        run: docker push $FRONTEND_IMAGE_TAG
-
-      - name: Build Backend
-        run: docker build --tag $BACKEND_IMAGE_TAG ./todo-backend
-
-      - name: Publish Backend
-        run: docker push $BACKEND_IMAGE_TAG
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v3
-      
+
       - name: Deploy
         run: |-
-          if [ "$GITHUB_REF_NAME" = "main" ]; 
-          then
-          NAMESPACE=project
-          else
-          NAMESPACE="$GITHUB_REF_NAME"
-          fi
-          kubectl create namespace ${NAMESPACE} || true
-          kubectl config set-context --current --namespace=${NAMESPACE}
-          kustomize edit set namespace ${NAMESPACE}
-          kustomize edit set image PROJECT/IMAGE_FRONTEND=$FRONTEND_IMAGE
-          kustomize edit set image PROJECT/IMAGE_BACKEND=$BACKEND_IMAGE
+          kubectl create namespace $NAMESPACE || true
+          kustomize edit set namespace $NAMESPACE
+          kustomize edit set image PROJECT/IMAGE_FRONTEND=$FRONTEND_IMAGE:$TAG
+          kustomize edit set image PROJECT/IMAGE_BACKEND=$BACKEND_IMAGE:$TAG
           kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment ${FRONTEND_DEPLOYMENT} 
-          kubectl rollout status deployment ${BACKEND_DEPLOYMENT} 
-          kubectl get services -o wide
-        
+          kubectl rollout status deployment $FRONTEND_DEPLOYMENT -n $NAMESPACE
+          kubectl rollout status deployment $BACKEND_DEPLOYMENT -n $NAMESPACE
+          kubectl get services -o wide -n $NAMESPACE

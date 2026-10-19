@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: exercises
+  name: the-project
+spec:
+  replicas: 1
+  strategy:
+   type: RollingUpdate
+   rollingUpdate:
+     maxSurge: 0
+     maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: the-project
+  template:
+    metadata:
+      labels:
+        app: the-project
+    spec:
+      containers:
+        - name: the-project
+          image: PROJECT/IMAGE_FRONTEND
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: the-project-config-map
+          volumeMounts:
+          - name: the-project-volume
+            mountPath: /tmp/kube
+      volumes:
+        - name: the-project-volume
+          persistentVolumeClaim:
+            claimName: the-project-claim
+        - name: the-project-config
+          configMap:
+            name: the-project-config-map
