@@ -17,6 +17,7 @@ jobs:
     if: github.ref_type == 'branch'
     name: Build and Publish
     runs-on: ubuntu-latest
+    environment: The-project
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
       namespace: ${{ steps.tag.outputs.namespace }}
