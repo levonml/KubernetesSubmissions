@@ -90,6 +90,7 @@
                 if (!response.ok) {
                     throw new Error(`Health toggle failed with status ${response.status}`);
                 }
+                window.location.reload();
             } catch (error) {
                 console.error("Could not toggle app health:", error);
             }

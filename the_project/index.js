@@ -22,6 +22,7 @@ let isHealthy = true
 // placeholder store until todo-backend takes over persistence
 
 const indexTemplate = fs.readFileSync(path.join(APP_DIR, "index.html"), "utf-8");
+const unhealthyTemplate = fs.readFileSync(path.join(APP_DIR, "unhealthy.html"), "utf-8");
 console.log("logs from the project");
 const escapeHtml = (text) =>
     text.replace(/[&<>"']/g, (char) => ({
@@ -65,6 +66,10 @@ const downloadImage = async () => {
 
 app.get("/", async (req, res) => {
     console.log("Received request for /");
+
+    if (!isHealthy) {
+        return res.status(503).send(unhealthyTemplate);
+    }
 
     const imageExists = fs.existsSync(imagePath);
 
