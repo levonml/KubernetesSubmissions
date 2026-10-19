@@ -17,6 +17,8 @@ const imagePath = path.join(PV_PATH, "image.jpg");
 
 const tenMinutes = 10 * 60 * 1000;
 
+let isHealthy = true
+
 // placeholder store until todo-backend takes over persistence
 
 const indexTemplate = fs.readFileSync(path.join(APP_DIR, "index.html"), "utf-8");
@@ -131,6 +133,19 @@ app.post("/add-todo-item", async (req, res) => {
     //console.log(`Received todo: ${text}`);
     return res.redirect(303, "/");
 });
+
+app.get("/healthz", (req, res) => {
+  if (!isHealthy) {
+    return res.status(500).json({ status: "unhealthy" })
+  }
+
+  return res.status(200).json({ status: "ok" })
+})
+
+app.post("/healthz/toggle", (req, res) => {
+  isHealthy = !isHealthy
+  return res.status(200).json({ status: isHealthy ? "ok" : "unhealthy" })
+})
 
 app.use(express.static(APP_DIR));
 
