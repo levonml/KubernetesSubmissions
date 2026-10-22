@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: cpu-usage
+  namespace: exercises
+spec:
+  metrics:
+  - name: cpu-usage
+    initialDelay: 30s
+    failureLimit: 0
+    successCondition: result < 0.01
+    provider:
+      prometheus:
+        address: http://prom-prometheus-server.monitoring.svc.cluster.local:80
+        query: |
+            scalar(sum(
+            rate(container_cpu_usage_seconds_total{namespace="exercises", container!="", container!="POD"}[5m])
+            ))

@@ -51,6 +51,4 @@
 - [4.1](https://github.com/levonml/KubernetesSubmissions/tree/4.1)
 - [4.2](https://github.com/levonml/KubernetesSubmissions/tree/4.2)
 - [4.3](https://github.com/levonml/KubernetesSubmissions/tree/4.3)
-
-### Query for ex 4.3
-SUM(count by (created_by_name) (kube_pod_info{created_by_kind="StatefulSet"}))
+- [4.4](https://github.com/levonml/KubernetesSubmissions/tree/4.4)

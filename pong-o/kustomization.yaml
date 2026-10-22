@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - manifests/analysistemplate.yaml
+  - manifests/gateway.yaml
+  - manifests/rollout.yaml
+  - manifests/service.yaml
+  - manifests/route.yaml
+  - PV/persistentvolumeclaim.yaml 
+images:
+  - name: PROJECT/IMAGE_PONG
+    newName: levonml/4-4-pingpong:v3
