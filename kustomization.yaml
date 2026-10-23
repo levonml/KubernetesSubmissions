@@ -13,6 +13,6 @@ resources:
   - todo-backend/manifests/statefulset-postgres.yaml  
 images:
   - name: PROJECT/IMAGE_BACKEND
-    newName: levonml/4-2-todo-backend
+    newName: levonml/4-5-todo-backend
   - name: PROJECT/IMAGE_FRONTEND
-    newName: levonml/4-2-the-project
+    newName: levonml/4-5-the-project
