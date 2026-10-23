@@ -55,6 +55,39 @@
         padding: 5px 10px;
 
     }
+
+    .todo-text {
+        flex: 1;
+    }
+
+    .mark-done-button {
+        background-color: #22be49;
+        border: 1px solid #22be49;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        margin-left: 12px;
+        min-height: 32px;
+        padding: 0 12px;
+    }
+
+    .todo-item.done .todo-text {
+        color: #888;
+        text-decoration: line-through;
+    }
+
+    .todo-item.done .mark-done-button {
+        background-color: #168a32;
+        border-color: #168a32;
+        cursor: default;
+    }
+
+    .todo-done-label {
+        color: #168a32;
+        font-weight: bold;
+        margin-left: 12px;
+    }
+
     #breakButton {
         margin-left: 10px;
         margin-top: 20px;
@@ -84,6 +117,36 @@
     </ul>
     <button id="breakButton">break the app</button>
     <script>
+        document.getElementById("todoList").addEventListener("click", async (event) => {
+            const button = event.target.closest(".mark-done-button");
+            if (!button) {
+                return;
+            }
+
+            const todoItem = button.closest(".todo-item");
+            button.disabled = true;
+            try {
+                const response = await fetch(`/todo/${todoItem.dataset.todoId}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ done: true })
+                });
+                if (!response.ok) {
+                    throw new Error(`Todo update failed with status ${response.status}`);
+                }
+
+                todoItem.classList.add("done");
+                const doneLabel = document.createElement("span");
+                doneLabel.className = "todo-done-label";
+                doneLabel.textContent = "DONE";
+                button.replaceWith(doneLabel);
+            } catch (error) {
+                button.disabled = false;
+                console.error("Could not mark todo as done:", error);
+                alert("Could not mark this todo as done. Please try again.");
+            }
+        });
+
         document.getElementById("breakButton").addEventListener("click", async () => {
             try {
                 const response = await fetch("/healthz/toggle", { method: "POST" });

@@ -36,9 +36,11 @@ const initDatabase = async (retries = 30, delayMs = 2000) => {
             await pool.query(`
                 CREATE TABLE IF NOT EXISTS todos (
                     id SERIAL PRIMARY KEY,
-                    data TEXT NOT NULL
+                    data TEXT NOT NULL,
+                    done BOOLEAN NOT NULL DEFAULT FALSE
                 );
             `);
+            await pool.query('ALTER TABLE todos ADD COLUMN IF NOT EXISTS done BOOLEAN NOT NULL DEFAULT FALSE');
             console.log('Connected to the database');
             console.log('Database initialized: "todos" table is ready');
             return;
@@ -73,12 +75,40 @@ app.get('/healthz', async (req, res) => {
 
 app.get('/todos', async (req, res) => {
     try {
-        const result = await pool.query('SELECT data FROM todos');
-        const todos = result.rows.map((row) => row.data);
+        const result = await pool.query('SELECT id, data, done FROM todos ORDER BY id');
+        const todos = result.rows;
         res.status(200).json({ todos });
     } catch (err) {
         console.error('Error fetching todos', err.stack);
         res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.put('/todo/:id', async (req, res) => {
+    const id = Number(req.params.id);
+    const { done } = req.body;
+
+    if (!Number.isInteger(id) || id < 1) {
+        return res.status(400).json({ error: 'Todo id must be a positive integer' });
+    }
+
+    if (typeof done !== 'boolean') {
+        return res.status(400).json({ error: 'Todo done status must be a boolean' });
+    }
+
+    try {
+        const result = await pool.query(
+            'UPDATE todos SET done = $1 WHERE id = $2 RETURNING id, data, done',
+            [done, id]
+        );
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'Todo not found' });
+        }
+
+        return res.status(200).json({ todo: result.rows[0] });
+    } catch (err) {
+        console.error('Error updating todo', err.stack);
+        return res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 

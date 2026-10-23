@@ -34,11 +34,16 @@ const escapeHtml = (text) =>
     }[char]));
 
 const renderIndexHtml = async () => {
-    const todos = await axios.get(`${backendUrl}/todos`)
-        .then(response => response.data.todos.filter(Boolean))
-        .catch(() => []);
+    const response = await axios.get(`${backendUrl}/todos`);
+    const todos = response.data.todos;
     //console.log(">>>> todos", todos)
-    const items = todos.map((text) => `<li>${escapeHtml(text)}</li>`).join("\n        ");
+    const items = todos.map(({ id, data, done }) => `
+        <li class="todo-item${done ? " done" : ""}" data-todo-id="${id}">
+            <span class="todo-text">${escapeHtml(data)}</span>
+            ${done
+                ? '<span class="todo-done-label">DONE</span>'
+                : '<button class="mark-done-button" type="button">Mark done</button>'}
+        </li>`).join("");
 
     return indexTemplate.replace("<!--TODOS-->", items);
 };
@@ -137,6 +142,24 @@ app.post("/add-todo-item", async (req, res) => {
 
     //console.log(`Received todo: ${text}`);
     return res.redirect(303, "/");
+});
+
+app.put("/todo/:id", async (req, res) => {
+    const id = Number(req.params.id);
+    const { done } = req.body;
+
+    if (!Number.isInteger(id) || id < 1 || typeof done !== "boolean") {
+        return res.status(400).json({ error: "A positive todo id and boolean done status are required" });
+    }
+
+    try {
+        const response = await axios.put(`${backendUrl}/todo/${id}`, { done });
+        return res.status(response.status).json(response.data);
+    } catch (error) {
+        console.error("Error forwarding todo update:", error?.message || "Unknown error");
+        const status = error.response?.status === 404 ? 404 : 502;
+        return res.status(status).json({ error: status === 404 ? "Todo not found" : "Failed to update todo" });
+    }
 });
 
 app.get("/healthz", (req, res) => {
