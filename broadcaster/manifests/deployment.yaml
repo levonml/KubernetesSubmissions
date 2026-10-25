@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broadcaster-dep
+  namespace: project
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: broadcaster
+  template:
+    metadata:
+      labels:
+        app: broadcaster
+    spec:
+      containers:
+        - name: broadcaster
+          image: PROJECT/IMAGE_BROADCASTER
+          env:
+            - name: NATS_URL
+              value: nats://my-nats.nats.svc.cluster.local:4222
+            - name: TELEGRAM_BOT_TOKEN # ENV name passed to container
+              valueFrom:
+                secretKeyRef:
+                  name: telegram-bot-secret
+                  key: TELEGRAM_BOT_TOKEN # ENV name in the secret
+            - name: TELEGRAM_CHAT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: telegram-bot-secret
+                  key: TELEGRAM_CHAT_ID
