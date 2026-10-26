@@ -34,6 +34,11 @@ spec:
                 configMapKeyRef:
                   name: the-project-config-map
                   key: DB_NAME
+            - name: NATS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: the-project-config-map
+                  key: NATS_URL
             - name: PORT
               value: "3000"
           readinessProbe:

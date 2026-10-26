@@ -11,4 +11,4 @@ data:
   DB_USER: "postgres"
   DB_PASSWORD: "postgres"
   DB_NAME: "postgres"
-  
+  NATS_URL: "nats://my-nats.nats.svc.cluster.local:4222"

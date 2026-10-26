@@ -1,0 +1,6 @@
+.git/
+node_modules/
+broadcaster/node_modules
+.env    
+key.txt
+manifests/

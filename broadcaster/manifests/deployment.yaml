@@ -4,7 +4,7 @@ metadata:
   name: broadcaster-dep
   namespace: project
 spec:
-  replicas: 10
+  replicas: 6
   selector:
     matchLabels:
       app: broadcaster
@@ -16,6 +16,7 @@ spec:
       containers:
         - name: broadcaster
           image: PROJECT/IMAGE_BROADCASTER
+          imagePullPolicy: Always
           env:
             - name: NATS_URL
               value: nats://my-nats.nats.svc.cluster.local:4222
