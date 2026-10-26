@@ -65,7 +65,13 @@ jobs:
         uses: imranismail/setup-kustomize@v3
 
       - name: Deploy
+        env:
+          SOPS_AGE_KEY: ${{ secrets.SOPS_AGE_KEY }}
         run: |-
+          set -euo pipefail
+          trap 'rm -f broadcaster/manifests/secret.yaml' EXIT
+          sops --decrypt broadcaster/manifests/secret.enc.yaml \
+            > broadcaster/manifests/secret.yaml
           kubectl create namespace $NAMESPACE || true
           kustomize edit set namespace $NAMESPACE
           kustomize edit set image PROJECT/IMAGE_FRONTEND=$FRONTEND_IMAGE:$TAG
