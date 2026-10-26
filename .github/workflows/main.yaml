@@ -53,6 +53,7 @@ jobs:
     name: Deploy to k3d
     needs: build-publish
     runs-on: self-hosted
+    environment: The-project
     env:
       TAG: ${{ needs.build-publish.outputs.tag }}
       NAMESPACE: ${{ needs.build-publish.outputs.namespace }}
