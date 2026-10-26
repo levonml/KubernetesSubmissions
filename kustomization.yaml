@@ -12,7 +12,7 @@ resources:
   - todo-backend/manifests/service.yaml 
   - todo-backend/manifests/statefulset-postgres.yaml  
   - broadcaster/manifests/deployment.yaml
-  - broadcaster/manifests/secret.yaml
+ # - broadcaster/manifests/secret.yaml
 images:
   - name: PROJECT/IMAGE_BACKEND
     newName: levonml/4-6-todo-backend:latest
