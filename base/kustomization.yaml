@@ -15,10 +15,10 @@ resources:
 images:
 - name: PROJECT/IMAGE_BACKEND
   newName: levonml/4-8-todo-backend
-  newTag: teti
+  newTag: 1180951901b1e01416cf6444b5da177e5312fb61
 - name: PROJECT/IMAGE_BROADCASTER
   newName: levonml/4-8-broadcaster
-  newTag: testi
+  newTag: 1180951901b1e01416cf6444b5da177e5312fb61
 - name: PROJECT/IMAGE_FRONTEND
   newName: levonml/4-8-the-project
-  newTag: testi
+  newTag: 1180951901b1e01416cf6444b5da177e5312fb61
