@@ -15,10 +15,10 @@ resources:
 images:
 - name: PROJECT/IMAGE_BACKEND
   newName: levonml/4-8-todo-backend
-  newTag: e18a34f2ea1b4a4cddc27fa2cdc7305e0aa94f77
+  newTag: a79a0098a45a5febcb95711a14ceffc9a8af3fae
 - name: PROJECT/IMAGE_BROADCASTER
   newName: levonml/4-8-broadcaster
-  newTag: e18a34f2ea1b4a4cddc27fa2cdc7305e0aa94f77
+  newTag: a79a0098a45a5febcb95711a14ceffc9a8af3fae
 - name: PROJECT/IMAGE_FRONTEND
   newName: levonml/4-8-the-project
-  newTag: e18a34f2ea1b4a4cddc27fa2cdc7305e0aa94f77
+  newTag: a79a0098a45a5febcb95711a14ceffc9a8af3fae
