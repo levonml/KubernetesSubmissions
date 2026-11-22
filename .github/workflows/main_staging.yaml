@@ -24,9 +24,9 @@ jobs:
       # tag image with the GitHub SHA to get a unique tag
       - name: Build and publish backend
         run: |-
-          docker build -f ./base/the_project/Dockerfile_staging --tag "levonml/4-9-the-project-staging:$GITHUB_SHA" ./base/the_project
+          docker build --tag "levonml/4-9-the-project-staging:$GITHUB_SHA" ./base/the_project
           docker push "levonml/4-9-the-project-staging:$GITHUB_SHA"
-          docker build --tag "levonml/4-9-todo-backend-staging:$GITHUB_SHA" ./base/todo-backend
+          docker build -f ./base/todo-backend/Dockerfile_staging --tag "levonml/4-9-todo-backend-staging:$GITHUB_SHA" ./base/todo-backend
           docker push "levonml/4-9-todo-backend-staging:$GITHUB_SHA"
 
       - name: Set up Kustomize
