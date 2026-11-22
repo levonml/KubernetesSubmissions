@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - ../../base
   - namespace.yaml
-  - ../../components/broadcaster/manifests/deployment.yaml
+  - ../../components/broadcaster/manifests
 namespace: production
 
 images:
