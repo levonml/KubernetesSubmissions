@@ -2,18 +2,18 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../../base
-  - namespace.yaml
-  - ../../components/broadcaster/manifests
+- ../../base
+- namespace.yaml
+- ../../components/broadcaster/manifests
 namespace: production
 
 images:
 - name: PROJECT/IMAGE_BACKEND
-  newName: levonml/4-8-todo-backend
-  newTag: 61a1c401189fee04e8f91481b44a20863647d9a2
+  newName: levonml/4-9-todo-backend
+  newTag: a511f28317d4876af1473f815b99c217e06cccc3
 - name: PROJECT/IMAGE_BROADCASTER
-  newName: levonml/4-8-broadcaster
-  newTag: 61a1c401189fee04e8f91481b44a20863647d9a2
+  newName: levonml/4-9-broadcaster
+  newTag: a511f28317d4876af1473f815b99c217e06cccc3
 - name: PROJECT/IMAGE_FRONTEND
-  newName: levonml/4-8-the-project
-  newTag: 61a1c401189fee04e8f91481b44a20863647d9a2
+  newName: levonml/4-9-the-project
+  newTag: a511f28317d4876af1473f815b99c217e06cccc3
