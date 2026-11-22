@@ -6,3 +6,11 @@ resources:
   - namespace.yaml
 
 namespace: staging
+
+images:
+- name: PROJECT/IMAGE_BACKEND
+  newName: levonml/4-8-todo-backend
+  newTag: 61a1c401189fee04e8f91481b44a20863647d9a2
+- name: PROJECT/IMAGE_FRONTEND
+  newName: levonml/4-8-the-project
+  newTag: 61a1c401189fee04e8f91481b44a20863647d9a2
