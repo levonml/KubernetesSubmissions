@@ -10,10 +10,10 @@ namespace: production
 images:
 - name: PROJECT/IMAGE_BACKEND
   newName: levonml/4-9-todo-backend
-  newTag: a511f28317d4876af1473f815b99c217e06cccc3
+  newTag: 1c9b94405cf67823d3529a5f0bfac022736da620
 - name: PROJECT/IMAGE_BROADCASTER
   newName: levonml/4-9-broadcaster
-  newTag: a511f28317d4876af1473f815b99c217e06cccc3
+  newTag: 1c9b94405cf67823d3529a5f0bfac022736da620
 - name: PROJECT/IMAGE_FRONTEND
   newName: levonml/4-9-the-project
-  newTag: a511f28317d4876af1473f815b99c217e06cccc3
+  newTag: 1c9b94405cf67823d3529a5f0bfac022736da620
