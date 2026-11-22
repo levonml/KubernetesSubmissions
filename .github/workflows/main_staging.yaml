@@ -2,8 +2,8 @@ name: Build and publish applicationo on Staging
 
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      - main
 
 jobs:
   build-publish:
@@ -37,7 +37,6 @@ jobs:
         run: |-
           kustomize edit set image PROJECT/IMAGE_FRONTEND=levonml/4-9-the-project-staging:$GITHUB_SHA
           kustomize edit set image PROJECT/IMAGE_BACKEND=levonml/4-9-todo-backend-staging:$GITHUB_SHA
-          kustomize edit set image PROJECT/IMAGE_BROADCASTER=levonml/4-9-broadcaster-staging:$GITHUB_SHA
 
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v10

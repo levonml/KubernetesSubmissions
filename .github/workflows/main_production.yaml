@@ -2,8 +2,8 @@ name: Build and publish application on Production
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - '*'
 
 jobs:
   build-publish:
@@ -45,4 +45,4 @@ jobs:
         uses: EndBug/add-and-commit@v10
         with:
           add: 'base/kustomization.yaml'
-          message: New version released ${{ github.sha }}
+          message: New production version released ${{ github.sha }}
