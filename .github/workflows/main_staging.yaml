@@ -37,7 +37,7 @@ jobs:
         run: |-
           kustomize edit set image PROJECT/IMAGE_FRONTEND=levonml/4-9-the-project-staging:$GITHUB_SHA
           kustomize edit set image PROJECT/IMAGE_BACKEND=levonml/4-9-todo-backend-staging:$GITHUB_SHA
-
+          echo "Kustomization.yaml updated with new image tags for staging environment. levonml/4-9-todo-backend-staging:$GITHUB_SHA"
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v10
         with:
