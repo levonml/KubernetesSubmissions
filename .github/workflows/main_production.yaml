@@ -26,12 +26,12 @@ jobs:
       # tag image with the GitHub SHA to get a unique tag
       - name: Build and publish backend
         run: |-
-          docker build --tag "levonml/4-8-the-project:$GITHUB_SHA" ./base/the_project
-          docker push "levonml/4-8-the-project:$GITHUB_SHA"
-          docker build --tag "levonml/4-8-todo-backend:$GITHUB_SHA" ./base/todo-backend
-          docker push "levonml/4-8-todo-backend:$GITHUB_SHA"
-          docker build --tag "levonml/4-8-broadcaster:$GITHUB_SHA" ./components/broadcaster
-          docker push "levonml/4-8-broadcaster:$GITHUB_SHA"
+          docker build --tag "levonml/4-9-the-project:$GITHUB_SHA" ./base/the_project
+          docker push "levonml/4-9-the-project:$GITHUB_SHA"
+          docker build --tag "levonml/4-9-todo-backend:$GITHUB_SHA" ./base/todo-backend
+          docker push "levonml/4-9-todo-backend:$GITHUB_SHA"
+          docker build --tag "levonml/4-9-broadcaster:$GITHUB_SHA" ./components/broadcaster
+          docker push "levonml/4-9-broadcaster:$GITHUB_SHA"
 
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v3
