@@ -126,23 +126,23 @@ app.post('/todos', async (req, res) => {
         return res.status(400).json({ error: 'Todo exceeds 140 characters' });
     }
     console.log(`Namespace Staging: \nLogging todo.created event tobe published to NATS in Production with data: ${JSON.stringify(data)}`);
-    /*     try {
-        console.log(`Connecting to NATS server at ${process.env.NATS_URL}...`);
-        nc = await connect({
-            servers: process.env.NATS_URL,
-        })
-    
+    try {
+        /*  console.log(`Connecting to NATS server at ${process.env.NATS_URL}...`);
+         nc = await connect({
+             servers: process.env.NATS_URL,
+         }) */
+
         // publish action 'created' to NATS when a new todo is created
-        console.log(`Publishing todo.created event to NATS with data: ${JSON.stringify(data)}`);
-        nc.publish('todo.created', JSON.stringify(data));
-        console.log(`Published todo.created event to NATS with data: ${JSON.stringify(data)}`);
+        // console.log(`Publishing todo.created event to NATS with data: ${JSON.stringify(data)}`);
+        //nc.publish('todo.created', JSON.stringify(data));
+        //console.log(`Published todo.created event to NATS with data: ${JSON.stringify(data)}`);
         // Insert the new todo into the database
         const result = await pool.query('INSERT INTO todos (data) VALUES ($1) RETURNING *', [data]);
         res.status(200).json({ todo: result.rows[0] });
     } catch (err) {
         console.error('Error adding todo', err.stack);
         res.status(500).json({ error: 'Internal Server Error' });
-    } */
+    }
 });
 
 app.listen(port, () => {
