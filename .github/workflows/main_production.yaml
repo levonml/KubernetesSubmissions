@@ -28,7 +28,7 @@ jobs:
           docker push "levonml/4-8-the-project:$GITHUB_SHA"
           docker build --tag "levonml/4-8-todo-backend:$GITHUB_SHA" ./base/todo-backend
           docker push "levonml/4-8-todo-backend:$GITHUB_SHA"
-          docker build --tag "levonml/4-8-broadcaster:$GITHUB_SHA" ./base/broadcaster
+          docker build --tag "levonml/4-8-broadcaster:$GITHUB_SHA" ./components/broadcaster
           docker push "levonml/4-8-broadcaster:$GITHUB_SHA"
 
       - name: Set up Kustomize
