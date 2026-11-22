@@ -37,9 +37,9 @@ jobs:
       - name: Use right image
         working-directory: ./overlays/production
         run: |-
-          kustomize edit set image PROJECT/IMAGE_FRONTEND=levonml/4-8-the-project:$GITHUB_SHA
-          kustomize edit set image PROJECT/IMAGE_BACKEND=levonml/4-8-todo-backend:$GITHUB_SHA
-          kustomize edit set image PROJECT/IMAGE_BROADCASTER=levonml/4-8-broadcaster:$GITHUB_SHA
+          kustomize edit set image PROJECT/IMAGE_FRONTEND=levonml/4-9-the-project:$GITHUB_SHA
+          kustomize edit set image PROJECT/IMAGE_BACKEND=levonml/4-9-todo-backend:$GITHUB_SHA
+          kustomize edit set image PROJECT/IMAGE_BROADCASTER=levonml/4-9-broadcaster:$GITHUB_SHA
 
       - name: commit kustomization.yaml to GitHub
         uses: EndBug/add-and-commit@v10
