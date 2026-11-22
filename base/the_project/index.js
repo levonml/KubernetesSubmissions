@@ -37,12 +37,12 @@ const renderIndexHtml = async () => {
     const response = await axios.get(`${backendUrl}/todos`);
     const todos = response.data.todos;
     //console.log(">>>> todos", todos)
-    const items = todos.map(({ id, data, done }) => `
+    const items = todos.reverse().map(({ id, data, done }) => `
         <li class="todo-item${done ? " done" : ""}" data-todo-id="${id}">
             <span class="todo-text">${escapeHtml(data)}</span>
             ${done
-                ? '<span class="todo-done-label">DONE</span>'
-                : '<button class="mark-done-button" type="button">Mark done</button>'}
+            ? '<span class="todo-done-label">DONE</span>'
+            : '<button class="mark-done-button" type="button">Mark done</button>'}
         </li>`).join("");
 
     return indexTemplate.replace("<!--TODOS-->", items);
@@ -163,16 +163,16 @@ app.put("/todo/:id", async (req, res) => {
 });
 
 app.get("/healthz", (req, res) => {
-  if (!isHealthy) {
-    return res.status(500).json({ status: "unhealthy" })
-  }
+    if (!isHealthy) {
+        return res.status(500).json({ status: "unhealthy" })
+    }
 
-  return res.status(200).json({ status: "ok" })
+    return res.status(200).json({ status: "ok" })
 })
 
 app.post("/healthz/toggle", (req, res) => {
-  isHealthy = !isHealthy
-  return res.status(200).json({ status: isHealthy ? "ok" : "unhealthy" })
+    isHealthy = !isHealthy
+    return res.status(200).json({ status: isHealthy ? "ok" : "unhealthy" })
 })
 
 app.use(express.static(APP_DIR));
