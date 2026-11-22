@@ -1,4 +1,4 @@
-name: Build and publish application
+name: Build and publish application on Production
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
         uses: imranismail/setup-kustomize@v3
 
       - name: Use right image
-        working-directory: ./base
+        working-directory: ./overlays/production
         run: |-
           kustomize edit set image PROJECT/IMAGE_FRONTEND=levonml/4-8-the-project:$GITHUB_SHA
           kustomize edit set image PROJECT/IMAGE_BACKEND=levonml/4-8-todo-backend:$GITHUB_SHA
