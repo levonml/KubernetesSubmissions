@@ -11,7 +11,6 @@ resources:
 - todo-backend/manifests/deployment.yaml
 - todo-backend/manifests/service.yaml
 - todo-backend/manifests/statefulset-postgres.yaml
-- broadcaster/manifests/deployment.yaml
 images:
 - name: PROJECT/IMAGE_BACKEND
   newName: levonml/4-8-todo-backend
